@@ -1,0 +1,33 @@
+#crt {
+  --crt-width: 459px;
+  --crt-height: 450px;
+  --crt-depth: 450px;
+
+  position: absolute;
+  width: var(--crt-width);
+  height: var(--crt-height);
+  transform: translateY(100px) translateZ(-200px);
+}
+
+#crt .face {
+  --lightness: 0%;
+
+  transform-style: preserve-3d;
+  width: var(--crt-width);
+  position: absolute;
+  border: 1px solid #111;
+  background-color: hsl(0, 0%, var(--lightness));
+}
+
+#crt .face.front {
+  --lightness: 40%;
+  height: var(--crt-height);
+}
+
+#crt .face.top {
+  --lightness: 60%;
+  height: var(--crt-depth);
+  bottom: 100%;
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+}
