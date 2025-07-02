@@ -1,0 +1,30 @@
+#desk {
+  --desk-width: 800px;
+  --desk-height: 30px;
+  --desk-depth: 300px;
+
+  position: relative;
+  width: var(--desk-width);
+  height: var(--desk-height);
+  transform-style: preserve-3d;
+}
+
+#desk .face {
+  --lightness: 0%;
+  border: 1px solid black;
+  position: absolute;
+  width: var(--desk-width);
+  background-color: hsl(0, 0%, var(--lightness));
+}
+
+#desk .face.top {
+  --lightness: 70%;
+  height: var(--desk-depth);
+  bottom: 100%;
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+}
+#desk .face.front {
+  --lightness: 50%;
+  height: var(--desk-height);
+}
