@@ -11,6 +11,7 @@
 
 :root {
   --window-max-width: 1200px;
+  --base-width: min(100vw, var(--window-max-width));
 }
 
 #container {

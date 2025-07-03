@@ -1,33 +1,19 @@
 #crt {
-  --crt-width: calc(var(--desk-width) * 0.38);
-  --crt-height: calc(var(--desk-width) * 0.35);
-  --crt-depth: calc(var(--desk-width) * 0.3);
-  --z-translation: calc(var(--desk-width) * -0.07);
+  --width: calc(var(--base-width) * 0.38);
+  --height: calc(var(--base-width) * 0.35);
+  --depth: calc(var(--base-width) * 0.3);
+  --z-translation: calc(var(--base-width) * -0.06);
+
   position: absolute;
-  transform-style: preserve-3d;
-  width: var(--crt-width);
-  height: var(--crt-height);
-  bottom: var(--desk-height);
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%) translateZ(var(--z-translation));
 }
 
-#crt .face {
-  --lightness: 0%;
-  width: var(--crt-width);
-  border: 1px solid #111;
-  background-color: hsl(0, 0%, var(--lightness));
-}
-
 #crt .face.front {
   --lightness: 40%;
-  height: var(--crt-height);
 }
 
 #crt .face.top {
   --lightness: 60%;
-  height: var(--crt-depth);
-  bottom: 100%;
-  transform-origin: bottom;
-  transform: rotateX(90deg);
 }

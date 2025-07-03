@@ -1,47 +1,23 @@
 #console {
-  --console-width: calc(var(--desk-width) * 0.15);
-  --console-height: calc(var(--desk-width) * 0.06);
-  --console-depth: calc(var(--desk-width) * 0.08);
-  --z-translation: calc(var(--desk-width) * -0.06);
+  --width: calc(var(--base-width) * 0.15);
+  --height: calc(var(--base-width) * 0.06);
+  --depth: calc(var(--base-width) * 0.08);
+  --z-translation: calc(var(--base-width) * -0.06);
 
-  transform-style: preserve-3d;
   position: absolute;
-  width: var(--console-width);
-  height: var(--console-height);
-  bottom: var(--desk-height);
+  bottom: 100%;
   left: 80%;
   transform: translateZ(var(--z-translation));
 }
 
-#console .face {
-  --lightness: 0%;
-
-  background-color: hsl(0, 0%, var(--lightness));
-  border: 1px solid black;
-  width: var(--console-width);
-}
-
 #console .face.front {
   --lightness: 50%;
-
-  height: var(--console-height);
 }
 
 #console .face.top {
   --lightness: 70%;
-
-  height: var(--console-depth);
-  bottom: 100%;
-  transform-origin: bottom;
-  transform: rotateX(90deg);
 }
 
 #console .face.side {
   --lightness: 40%;
-
-  right: 100%;
-  height: var(--console-height);
-  width: var(--console-depth);
-  transform-origin: right;
-  transform: rotateY(-90deg);
 }

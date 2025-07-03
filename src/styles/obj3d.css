@@ -1,0 +1,33 @@
+.obj-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  width: var(--width);
+  height: var(--height);
+}
+
+.face {
+  background-color: hsl(0, 0%, var(--lightness));
+  position: absolute;
+  border: 1px solid #111;
+}
+
+.face.front {
+  width: var(--width);
+  height: var(--height);
+}
+
+.face.top {
+  width: var(--width);
+  height: var(--depth);
+  bottom: 100%;
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+}
+
+.face.side {
+  right: 100%;
+  height: var(--height);
+  width: var(--depth);
+  transform-origin: right;
+  transform: rotateY(-90deg);
+}
