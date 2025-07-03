@@ -20,7 +20,7 @@
 }
 
 #scene {
-  /* position: relative; */
+  position: relative;
   perspective: 900px;
   perspective-origin: 50% 20%;
   aspect-ratio: 4/3;
@@ -30,6 +30,7 @@
 }
 
 #desk,
-#crt {
+#crt,
+#console {
   transform-style: preserve-3d;
 }

@@ -1,0 +1,46 @@
+#console {
+  --console-width: 200px;
+  --console-height: 70px;
+  --console-depth: 100px;
+
+  position: absolute;
+  width: var(--console-width);
+  height: var(--console-height);
+  transform: translateX(350px) translateY(150px);
+}
+
+#console .face {
+  --lightness: 0%;
+
+  background-color: hsl(0, 0%, var(--lightness));
+
+  position: absolute;
+  border: 1px solid black;
+  transform-style: preserve-3d;
+  width: var(--console-width);
+}
+
+#console .face.front {
+  --lightness: 50%;
+
+  height: var(--console-height);
+}
+
+#console .face.top {
+  --lightness: 70%;
+
+  height: var(--console-depth);
+  bottom: 100%;
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+}
+
+#console .face.side {
+  --lightness: 40%;
+
+  right: 100%;
+  height: var(--console-height);
+  width: var(--console-depth);
+  transform-origin: right;
+  transform: rotateY(-90deg);
+}
