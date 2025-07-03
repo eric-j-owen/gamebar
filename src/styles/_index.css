@@ -1,5 +1,5 @@
-@import url("./desk.css");
-@import url("./crt.css");
-@import url("./console.css");
-@import url("./obj3d.css");
 @import url("./global.css");
+@import url("./objects/_shared.css");
+@import url("./objects/desk.css");
+@import url("./objects/crt.css");
+@import url("./objects/console.css");
