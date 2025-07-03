@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GameBar</title>
     <link rel="stylesheet" href="./styles/_index.css" />
-    <script src="./main.ts" defer></script>
+    <script src="../dist/main.js" type="module" defer></script>
   </head>
   <body>
     <div id="container">
       <div id="scene">
         <div id="desk">
-          <div class="face front"></div>
-          <div class="face top"></div>
-        </div>
-        <div id="crt">
-          <div class="face front"></div>
-          <div class="face top"></div>
-          <div class="screen"></div>
-        </div>
-        <div id="console">
-          <div class="face front"></div>
-          <div class="face top"></div>
-          <div class="face side"></div>
+          <div class="desk face front"></div>
+          <div class="desk face top"></div>
+          <game-cartridge></game-cartridge>
+          <div id="crt">
+            <div class="face front"></div>
+            <div class="face top"></div>
+            <div class="screen"></div>
+          </div>
+          <div id="console">
+            <div class="face front"></div>
+            <div class="face top"></div>
+            <div class="face side"></div>
+          </div>
         </div>
       </div>
     </div>

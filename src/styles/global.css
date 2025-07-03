@@ -9,28 +9,20 @@
   box-sizing: border-box;
 }
 
+:root {
+  --window-max-width: 1200px;
+}
+
 #container {
-  min-height: 100vh;
-  border: 1px solid black;
-  margin-inline: auto;
   max-width: 1200px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-inline: auto;
 }
 
 #scene {
-  position: relative;
   perspective: 900px;
-  perspective-origin: 50% 20%;
+  perspective-origin: 50% 25%;
   aspect-ratio: 4/3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#desk,
-#crt,
-#console {
-  transform-style: preserve-3d;
 }

@@ -4,7 +4,6 @@
     "skipLibCheck": true,
     "target": "es2022",
     "allowJs": true,
-    "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
@@ -13,7 +12,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
-    "module": "NodeNext",
+    "module": "ESNext",
     "outDir": "dist",
     "sourceMap": true,
 

@@ -1,11 +1,12 @@
 #desk {
-  --desk-width: 1200px;
-  --desk-height: 50px;
-  --desk-depth: 500px;
+  --desk-width: min(100vw, var(--window-max-width));
+  --desk-height: calc(var(--desk-width) * 0.05);
+  --desk-depth: calc(var(--desk-width) * 0.3);
   position: relative;
+  transform-style: preserve-3d;
   width: var(--desk-width);
   height: var(--desk-height);
-  transform: translateY(300px);
+  top: 80%;
 }
 
 #desk .face {

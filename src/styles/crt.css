@@ -1,20 +1,20 @@
 #crt {
-  --crt-width: 459px;
-  --crt-height: 450px;
-  --crt-depth: 450px;
-
+  --crt-width: calc(var(--desk-width) * 0.38);
+  --crt-height: calc(var(--desk-width) * 0.35);
+  --crt-depth: calc(var(--desk-width) * 0.3);
+  --z-translation: calc(var(--desk-width) * -0.07);
   position: absolute;
+  transform-style: preserve-3d;
   width: var(--crt-width);
   height: var(--crt-height);
-  transform: translateY(100px) translateZ(-200px);
+  bottom: var(--desk-height);
+  left: 50%;
+  transform: translateX(-50%) translateZ(var(--z-translation));
 }
 
 #crt .face {
   --lightness: 0%;
-
-  transform-style: preserve-3d;
   width: var(--crt-width);
-  position: absolute;
   border: 1px solid #111;
   background-color: hsl(0, 0%, var(--lightness));
 }
