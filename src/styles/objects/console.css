@@ -9,15 +9,3 @@
   left: 80%;
   transform: translateZ(var(--z-translation));
 }
-
-#console .face.front {
-  --lightness: 50%;
-}
-
-#console .face.top {
-  --lightness: 70%;
-}
-
-#console .face.side {
-  --lightness: 40%;
-}

@@ -1,33 +1,100 @@
 .obj-3d {
-  position: relative;
   transform-style: preserve-3d;
   width: var(--width);
   height: var(--height);
 }
 
 .face {
+  --lightness: 50%;
+
+  transform-style: preserve-3d;
   background-color: hsl(0, 0%, var(--lightness));
   position: absolute;
   border: 1px solid #111;
 }
 
 .face.front {
-  width: var(--width);
   height: var(--height);
+  width: var(--width);
+}
+
+.face.back {
+  height: var(--height);
+  width: var(--width);
+  transform: translateZ(calc(-1 * var(--depth)));
 }
 
 .face.top {
-  width: var(--width);
-  height: var(--depth);
   bottom: 100%;
+  height: var(--depth);
+  width: var(--width);
   transform-origin: bottom;
   transform: rotateX(90deg);
 }
 
-.face.side {
+.face.bottom {
+  top: 100%;
+  height: var(--depth);
+  width: var(--width);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+}
+
+.face.left {
   right: 100%;
   height: var(--height);
   width: var(--depth);
   transform-origin: right;
   transform: rotateY(-90deg);
 }
+
+.face.right {
+  left: 100%;
+  height: var(--height);
+  width: var(--depth);
+  transform-origin: left;
+  transform: rotateY(90deg);
+}
+
+/* 
+--------------- 
+FOR TESTING
+--------------- 
+*/
+
+/* .obj-3d {
+  display: none;
+}
+
+#cartridge {
+  display: block;
+  transform: rotateX(-0deg) rotateY(50deg);
+  animation: rotate 20s linear infinite;
+}
+
+.face.top {
+  background-color: #eebaba;
+}
+.face.bottom {
+  background-color: #eeeaba;
+}
+.face.front {
+  background-color: #baeec3;
+}
+.face.back {
+  background-color: #bae2ee;
+}
+.face.left {
+  background-color: #c8baee;
+}
+.face.right {
+  background-color: #ac87a3;
+}
+@keyframes rotate {
+  from {
+    transform: rotateX(30deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(30deg) rotateY(360deg);
+  }
+} */
