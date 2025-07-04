@@ -3,8 +3,8 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 */
 
 #crt {
-  --width: calc(var(--base-width) * 0.38);
-  --height: calc(var(--base-width) * 0.35);
+  --width: calc(var(--base-width) * 0.45);
+  --height: calc(var(--base-width) * 0.3);
   --depth: calc(var(--base-width) * 0.3);
   --z-translation: calc(var(--base-width) * -0.06);
 
@@ -13,6 +13,11 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   left: 50%;
   transform: translateX(-50%) translateZ(var(--z-translation));
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.crt-interface {
+  border: 2px solid blue;
+  display: flex;
 }
 
 #crt .face.front {
@@ -25,10 +30,10 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 
 .screen-container {
   position: absolute;
-  width: 70%;
-  height: 70%;
-  top: 13%;
-  left: 15%;
+  width: 60%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
 }
 .screen {
   position: absolute;
@@ -140,4 +145,55 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
     transform: scale(1.08);
     opacity: 0.7;
   }
+}
+
+/*
+-------------
+control panel
+-------------
+*/
+
+.side-panel {
+  position: absolute;
+  right: 1%;
+  bottom: 8%;
+  height: 85%;
+  width: 25%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.power-led {
+  display: none;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+}
+
+.speaker-container {
+  background-color: white;
+  height: 35%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.speaker {
+  background-color: pink;
+  height: 35%;
+  width: 90%;
+}
+
+.crt-btns-container {
+  background: rgb(121, 121, 121);
+  box-shadow: inset 1px 1px 10px rgb(0, 0, 0);
+  border: 2px solid #000;
+  height: 70%;
+  width: 100%;
+  display: flex;
 }
