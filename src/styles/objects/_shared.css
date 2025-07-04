@@ -10,7 +10,6 @@
   transform-style: preserve-3d;
   background-color: hsl(0, 0%, var(--lightness));
   position: absolute;
-  border: 1px solid #111;
 }
 
 .face.front {
