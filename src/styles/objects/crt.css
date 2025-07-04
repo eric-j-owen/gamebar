@@ -15,17 +15,16 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-.crt-interface {
-  border: 2px solid blue;
-  display: flex;
+#crt .face {
+  background: hsl(17, 30%, var(--lightness));
 }
 
 #crt .face.front {
-  --lightness: 20%;
+  --lightness: 25%;
 }
 
 #crt .face.top {
-  --lightness: 40%;
+  --lightness: 15%;
 }
 
 .screen-container {
@@ -33,7 +32,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   width: 60%;
   height: 80%;
   top: 10%;
-  left: 10%;
+  left: 6%;
 }
 .screen {
   position: absolute;
@@ -41,7 +40,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   height: 100%;
   background: #3d3d3d;
   border-radius: 50% / 3%;
-  box-shadow: 0 0 2px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px 15px rgba(0, 0, 0, 0.7);
   overflow: hidden;
   border: 2px solid #000000;
 }
@@ -155,11 +154,10 @@ control panel
 
 .side-panel {
   position: absolute;
-  right: 1%;
+  right: 3%;
   bottom: 8%;
   height: 85%;
   width: 25%;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -174,19 +172,26 @@ control panel
   border-radius: 50%;
 }
 
-.speaker-container {
-  background-color: white;
+.speaker {
+  position: relative;
+  background-color: rgb(43, 43, 43);
   height: 35%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+  background: repeating-linear-gradient(#1b1b1b, transparent 8px);
+  box-shadow: inset 0 0 20px 10px rgba(0, 0, 0, 0.7);
 }
 
-.speaker {
-  background-color: pink;
-  height: 35%;
-  width: 90%;
+.speaker::before {
+  content: "";
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border-radius: 50%;
 }
 
 .crt-btns-container {
