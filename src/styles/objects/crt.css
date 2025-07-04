@@ -16,17 +16,13 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-#crt .face {
-  background: hsl(var(--base-clr), var(--lightness));
-}
-
 #crt .face.front {
   background: url("https://tr.rbxcdn.com/7c015bb6f0eb741085292b91cebfc0ea/420/420/Decal/Webp");
-  border: 5px solid rgb(241, 199, 107, 0.5);
+  border: 5px solid rgb(241, 199, 107, 0.3);
 }
 
 #crt .face.top {
-  --lightness: 15%;
+  background: hsl(var(--base-clr), 20%);
 }
 
 .screen-container {
@@ -40,14 +36,13 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #3d3d3d;
+  background: #1d1d1d;
   border-radius: 50% / 5%;
   box-shadow: 0 0 2px 15px rgba(0, 0, 0, 0.7);
   overflow: hidden;
-  border: 2px solid #000000;
 }
 
-.screen-content {
+#crt[data-power="on"] .screen-content {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -57,7 +52,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 /* vignette */
-.screen-overlay {
+#crt[data-power="on"] .screen-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -69,7 +64,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 /* vibrating pixel effect */
-.screen-overlay::after {
+#crt[data-power="on"] .screen-overlay::after {
   content: " ";
   position: absolute;
   width: 100%;
@@ -88,7 +83,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 /* scanline movement animation */
-.screen-overlay::before {
+#crt[data-power="on"] .screen-overlay::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -106,7 +101,7 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 /* screen glow animation */
-.screen-glow {
+#crt[data-power="on"] .screen-glow {
   position: absolute;
   top: 0;
   left: 0;
@@ -235,7 +230,7 @@ control panel
   border-radius: 50%;
 }
 
-.power-led {
+#crt[data-power="on"] .power-led {
   background: radial-gradient(
     circle,
     rgb(255, 128, 128) 0%,
