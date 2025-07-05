@@ -17,8 +17,8 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 #crt .face.front {
-  background: url("https://tr.rbxcdn.com/7c015bb6f0eb741085292b91cebfc0ea/420/420/Decal/Webp");
-  border: 5px solid rgb(241, 199, 107, 0.3);
+  background: url("../../assets/textures/wood.webp");
+  box-shadow: inset 0 0 15px 15px rgba(77, 68, 54, 0.7);
 }
 
 #crt .face.top {
@@ -27,40 +27,50 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 
 .screen-container {
   position: absolute;
-  width: 60%;
-  height: 80%;
-  top: 10%;
-  left: 6%;
+  width: 72%;
+  height: 100%;
 }
 .screen {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #1d1d1d;
-  border-radius: 50% / 5%;
-  box-shadow: 0 0 2px 15px rgba(0, 0, 0, 0.7);
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  aspect-ratio: 4/3;
+  background: hsl(109, 5%, 41%);
+  border-radius: 50% / 15%;
   overflow: hidden;
+  box-shadow: 0 0 8px 20px rgb(0, 0, 0, 0.7);
+}
+
+/* screen glare */
+.screen::after {
+  content: "";
+  position: absolute;
+  right: 15%;
+  top: 20%;
+  width: 20%;
+  height: 15%;
+  border-radius: 50%;
+  background: linear-gradient(white 15%, transparent 80%);
+  transform: rotateZ(45deg);
+  opacity: 0.1;
 }
 
 #crt[data-power="on"] .screen-content {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fe4%2F1d%2F7f%2Fe41d7fb6338ccbe6199db86a35fd7bb3.gif&f=1&nofb=1&ipt=5a06b292e4b79f5586a3772c9a3e9e2ec2216707f04c03e30ae3329555211fe4");
+  background: url("");
   background-size: cover;
-  filter: brightness(1.2) contrast(1.3) grayscale(0.5) blur(1px);
+  filter: brightness(1.2) contrast(1.3) grayscale(0.5);
 }
 
 /* vignette */
-#crt[data-power="on"] .screen-overlay {
+.screen-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background: radial-gradient(transparent 70%, rgba(0, 0, 0, 1) 100%);
 }
 
 /* vibrating pixel effect */
