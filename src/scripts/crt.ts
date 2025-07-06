@@ -1,13 +1,14 @@
 //selectors
 const tv = document.querySelector("#crt") as HTMLDivElement;
 const screenContent = document.querySelector(".screen-content");
-const channelDisplay = document.querySelector(".curr-ch");
-
 const powerBtn = document.querySelector(".power-btn") as HTMLButtonElement;
 const chUp = document.querySelector(".channel-btns .up") as HTMLButtonElement;
 const chDown = document.querySelector(
   ".channel-btns .down"
 ) as HTMLButtonElement;
+
+if (!screenContent || !tv || !powerBtn || !chUp || !chDown)
+  throw Error(`missing element`);
 
 //consts
 const CHANNELS = [
@@ -26,7 +27,8 @@ const CHANNELS = [
 
 // state
 let isTvOn = tv.getAttribute("data-power") === "on";
-let currCh = CHANNELS[0]!.ch;
+let channelIdx = 0;
+let channelTimeout: number;
 
 //audio samples
 const sfx = {
@@ -70,6 +72,7 @@ function togglePower() {
     tv.setAttribute("data-power", "off");
     stopAudio(...Object.values(sfx));
     sfx.clickOff.play();
+    screenContent!.innerHTML = "";
   }
 
   //turn tv on
@@ -79,6 +82,7 @@ function togglePower() {
     sfx.clickOn.play();
     sfx.tvHum.play();
     sfx.tvHum.loop = true;
+    displayChannel(channelIdx);
   }
 
   isTvOn = !isTvOn;
@@ -87,23 +91,38 @@ function togglePower() {
 function changeChannel(e: MouseEvent) {
   if (!isTvOn) return;
   const target = e.target as HTMLButtonElement;
-  let direction;
 
+  // update channel index depending on button clicked
+  let direction;
   if (target.classList.contains("up")) {
     direction = 1;
   } else {
     direction = -1;
   }
-
-  console.log(direction);
-  //play channel changing sound
-  playButtonClick();
-  //update and display channel number
-  if (channelDisplay) {
-    channelDisplay.textContent = `CH-${currCh}`;
+  channelIdx += direction;
+  if (channelIdx > CHANNELS.length - 1) {
+    channelIdx = 0;
+  } else if (channelIdx < 0) {
+    channelIdx = CHANNELS.length - 1;
   }
 
-  //update channel content
+  playButtonClick();
+  displayChannel(channelIdx);
+}
+
+function displayChannel(i: number) {
+  if (channelTimeout) {
+    clearTimeout(channelTimeout);
+  }
+  screenContent!.innerHTML = "";
+  const channelIndicator = document.createElement("span");
+  channelIndicator.classList.add("curr-ch");
+  channelIndicator.textContent = `CH-${CHANNELS[i]?.ch}`;
+  screenContent?.appendChild(channelIndicator);
+
+  channelTimeout = setTimeout(() => {
+    screenContent!.innerHTML = "";
+  }, 4000);
 }
 
 //ensures a random button click sfx is used each time

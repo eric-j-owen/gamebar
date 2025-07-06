@@ -159,7 +159,6 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 }
 
 .screen-content {
-  font-family: "Sixtyfour", sans-serif;
   color: #9aff9a;
   text-shadow: 0 5px 5px #00ff66cc;
 }
@@ -167,10 +166,8 @@ https://codepen.io/Doron_B/pen/ZWOxaN?editors=1100
 
 #crt[data-power="on"] .curr-ch {
   position: absolute;
-  font-size: calc(var(--base-width) * 0.02);
   top: 15%;
   left: 10%;
-  z-index: 32;
   opacity: 0.8;
 }
 
@@ -183,6 +180,7 @@ control panel
 */
 
 .side-panel {
+  font-family: system-ui;
   background: hsl(24, 20%, 50%);
   position: absolute;
   right: 3%;
