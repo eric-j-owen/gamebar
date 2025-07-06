@@ -1,16 +1,23 @@
 //selectors
-const tv = document.querySelector("#crt") as HTMLDivElement;
-const screenContent = document.querySelector(".screen-content");
-const powerBtn = document.querySelector(".power-btn") as HTMLButtonElement;
-const chUp = document.querySelector(".channel-btns .up") as HTMLButtonElement;
-const chDown = document.querySelector(
-  ".channel-btns .down"
-) as HTMLButtonElement;
-
-if (!screenContent || !tv || !powerBtn || !chUp || !chDown)
-  throw Error(`missing element`);
+const els = {
+  tv: document.querySelector("#crt") as HTMLDivElement,
+  screenContent: document.querySelector(".screen-content") as HTMLDivElement,
+  powerBtn: document.querySelector(".power-btn") as HTMLButtonElement,
+  chDisplay: document.querySelector(".ch-display") as HTMLDivElement,
+  volDisplay: document.querySelector(".vol-display") as HTMLDivElement,
+  volSlots: document.querySelectorAll(".vol-slot") as NodeListOf<Element>,
+  chUp: document.querySelector(".channel-btns .up") as HTMLButtonElement,
+  chDown: document.querySelector(".channel-btns .down") as HTMLButtonElement,
+  volUp: document.querySelector(".volume-btns .up") as HTMLButtonElement,
+  volDown: document.querySelector(".volume-btns .down") as HTMLButtonElement,
+};
+for (const [key, el] of Object.entries(els)) {
+  if (!el) throw Error(`missing ${key}`);
+}
 
 //consts
+const MAX_VOL = 10;
+const MIN_VOL = 1;
 const CHANNELS = [
   { ch: 3, content: "" },
   {
@@ -26,9 +33,11 @@ const CHANNELS = [
 ];
 
 // state
-let isTvOn = tv.getAttribute("data-power") === "on";
+let isTvOn = els.tv.getAttribute("data-power") === "on";
 let channelIdx = 0;
 let channelTimeout: number;
+let volTimeout: number;
+let currVol = 5;
 
 //audio samples
 const sfx = {
@@ -43,20 +52,16 @@ const btnSfx = {
   click2: new Audio("assets/audio/button-clicks/button-click-2.mp3"),
   click3: new Audio("assets/audio/button-clicks/button-click-3.mp3"),
   click4: new Audio("assets/audio/button-clicks/button-click-4.mp3"),
-  click5: new Audio("assets/audio/button-clicks/button-click-5.mp3"),
-  click6: new Audio("assets/audio/button-clicks/button-click-6.mp3"),
-  click8: new Audio("assets/audio/button-clicks/button-click-8.mp3"),
-  click9: new Audio("assets/audio/button-clicks/button-click-9.mp3"),
-  click10: new Audio("assets/audio/button-clicks/button-click-10.mp3"),
-  click11: new Audio("assets/audio/button-clicks/button-click-11.mp3"),
 };
 const sfxArray = Object.values(sfx);
 const clicksArray = Object.values(btnSfx);
 
 //event listeners
-powerBtn.addEventListener("click", togglePower);
-chUp.addEventListener("click", changeChannel);
-chDown.addEventListener("click", changeChannel);
+els.powerBtn.addEventListener("click", togglePower);
+els.chUp.addEventListener("click", changeChannel);
+els.chDown.addEventListener("click", changeChannel);
+els.volUp.addEventListener("click", changeVolume);
+els.volDown.addEventListener("click", changeVolume);
 
 //functions
 function stopAudio(...audio: HTMLAudioElement[]) {
@@ -66,22 +71,34 @@ function stopAudio(...audio: HTMLAudioElement[]) {
   }
 }
 
+//ensures a random button click sfx is used each time
+function playButtonClick() {
+  stopAudio(...clicksArray, sfx.static);
+  const randomIdx = Math.floor(Math.random() * clicksArray.length);
+  clicksArray[randomIdx]?.play();
+  sfx.static.play();
+  sfx.static.loop = true;
+}
+
 function togglePower() {
   //turn tv off
   if (isTvOn) {
-    tv.setAttribute("data-power", "off");
-    stopAudio(...Object.values(sfx));
+    stopAudio(...sfxArray);
     sfx.clickOff.play();
-    screenContent!.innerHTML = "";
+
+    els.tv.setAttribute("data-power", "off");
+    els.screenContent!.hidden = true;
   }
 
   //turn tv on
   else {
-    tv.setAttribute("data-power", "on");
     stopAudio(sfx.clickOff);
     sfx.clickOn.play();
     sfx.tvHum.play();
     sfx.tvHum.loop = true;
+
+    els.tv.setAttribute("data-power", "on");
+    els.screenContent!.hidden = false;
     displayChannel(channelIdx);
   }
 
@@ -93,12 +110,7 @@ function changeChannel(e: MouseEvent) {
   const target = e.target as HTMLButtonElement;
 
   // update channel index depending on button clicked
-  let direction;
-  if (target.classList.contains("up")) {
-    direction = 1;
-  } else {
-    direction = -1;
-  }
+  let direction = target.classList.contains("up") ? 1 : -1;
   channelIdx += direction;
   if (channelIdx > CHANNELS.length - 1) {
     channelIdx = 0;
@@ -114,22 +126,39 @@ function displayChannel(i: number) {
   if (channelTimeout) {
     clearTimeout(channelTimeout);
   }
-  screenContent!.innerHTML = "";
-  const channelIndicator = document.createElement("span");
-  channelIndicator.classList.add("curr-ch");
-  channelIndicator.textContent = `CH-${CHANNELS[i]?.ch}`;
-  screenContent?.appendChild(channelIndicator);
+  els.chDisplay.hidden = false;
+  els.chDisplay!.textContent = `CH-${CHANNELS[i]?.ch}`;
 
   channelTimeout = setTimeout(() => {
-    screenContent!.innerHTML = "";
+    els.chDisplay!.hidden = true;
   }, 4000);
 }
 
-//ensures a random button click sfx is used each time
-function playButtonClick() {
-  stopAudio(...clicksArray, sfx.static);
-  const randomIdx = Math.floor(Math.random() * clicksArray.length);
-  clicksArray[randomIdx]?.play();
-  sfx.static.play();
-  sfx.static.loop = true;
+function changeVolume(e: MouseEvent) {
+  if (!isTvOn) return;
+  const target = e.target as HTMLButtonElement;
+  let direction = target.classList.contains("up") ? 1 : -1;
+
+  currVol += direction;
+  if (currVol > MAX_VOL) {
+    currVol = MAX_VOL;
+  } else if (currVol < MIN_VOL) {
+    currVol = MIN_VOL;
+  }
+  displayVolume(currVol);
+  playButtonClick();
+}
+
+function displayVolume(currVol: number) {
+  if (volTimeout) clearTimeout(volTimeout);
+
+  els.volDisplay.hidden = false;
+
+  els.volSlots.forEach((slot, i) => {
+    slot.classList.toggle("on", i < currVol);
+  });
+
+  volTimeout = setTimeout(() => {
+    els.volDisplay.hidden = true;
+  }, 4000);
 }
