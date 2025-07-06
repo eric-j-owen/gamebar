@@ -12,6 +12,11 @@
 :root {
   --window-max-width: 1200px;
   --base-width: min(100vw, var(--window-max-width));
+  --font-size: calc(var(--base-width) * 0.02);
+}
+
+body {
+  font-size: var(--font-size);
 }
 
 #container {

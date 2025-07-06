@@ -27,14 +27,13 @@ const CHANNELS = [
 // state
 let isTvOn = tv.getAttribute("data-power") === "on";
 let currCh = CHANNELS[0]!.ch;
-let currAudioPlaying: HTMLAudioElement[] = [];
 
 //audio samples
 const sfx = {
   clickOn: new Audio("assets/audio/tv-on.mp3"),
   clickOff: new Audio("assets/audio/tv-off.mp3"),
   tvHum: new Audio("assets/audio/tv-hum.mp3"),
-  changeCh: new Audio("assets/audio/change-ch.mp3"),
+  static: new Audio("assets/audio/tv-static.mp3"),
 };
 
 const btnSfx = {
@@ -44,7 +43,6 @@ const btnSfx = {
   click4: new Audio("assets/audio/button-clicks/button-click-4.mp3"),
   click5: new Audio("assets/audio/button-clicks/button-click-5.mp3"),
   click6: new Audio("assets/audio/button-clicks/button-click-6.mp3"),
-  click7: new Audio("assets/audio/button-clicks/button-click-7.mp3"),
   click8: new Audio("assets/audio/button-clicks/button-click-8.mp3"),
   click9: new Audio("assets/audio/button-clicks/button-click-9.mp3"),
   click10: new Audio("assets/audio/button-clicks/button-click-10.mp3"),
@@ -110,7 +108,9 @@ function changeChannel(e: MouseEvent) {
 
 //ensures a random button click sfx is used each time
 function playButtonClick() {
-  stopAudio(...clicksArray);
+  stopAudio(...clicksArray, sfx.static);
   const randomIdx = Math.floor(Math.random() * clicksArray.length);
   clicksArray[randomIdx]?.play();
+  sfx.static.play();
+  sfx.static.loop = true;
 }
