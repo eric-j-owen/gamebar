@@ -88,6 +88,7 @@ function togglePower() {
   //turn tv off
   if (isTvOn) {
     stopAudio(...sfxArray);
+    els.channelVid.src = "";
     sfx.clickOff.play();
     sfx.powerOff.play();
     els.tv.setAttribute("data-power", "off");
@@ -129,6 +130,7 @@ function changeChannel(e: MouseEvent) {
 }
 
 function displayChannel(i: number) {
+  // channel indicator
   if (channelTimeout) {
     clearTimeout(channelTimeout);
   }
@@ -138,6 +140,12 @@ function displayChannel(i: number) {
   channelTimeout = setTimeout(() => {
     els.chDisplay!.hidden = true;
   }, TIMEOUT_DUR);
+
+  //channel content
+  const currChannelContent = CHANNELS[i]?.content;
+
+  els.channelVid.src = CHANNELS[i]?.content!;
+  els.channelVid.play();
 }
 
 function changeVolume(e: MouseEvent) {
@@ -151,6 +159,8 @@ function changeVolume(e: MouseEvent) {
   } else if (currVol < MIN_VOL) {
     currVol = MIN_VOL;
   }
+
+  els.channelVid.volume = currVol / MAX_VOL;
   stopAudio(...clicksArray);
   displayVolume(currVol);
   playButtonClick();
