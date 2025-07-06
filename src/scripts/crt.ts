@@ -2,6 +2,9 @@
 const els = {
   tv: document.querySelector("#crt") as HTMLDivElement,
   screenContent: document.querySelector(".screen-content") as HTMLDivElement,
+  channelVid: document.querySelector(
+    ".channel-content video"
+  ) as HTMLVideoElement,
   powerBtn: document.querySelector(".power-btn") as HTMLButtonElement,
   chDisplay: document.querySelector(".ch-display") as HTMLDivElement,
   volDisplay: document.querySelector(".vol-display") as HTMLDivElement,
@@ -36,9 +39,10 @@ const CHANNELS = [
 // state
 let isTvOn = els.tv.getAttribute("data-power") === "on";
 let channelIdx = 0;
+let currVol = 5;
+// for resetting timeouts on channel+volume concurrent button clicks
 let channelTimeout: number;
 let volTimeout: number;
-let currVol = 5;
 
 //audio samples
 const sfx = {
