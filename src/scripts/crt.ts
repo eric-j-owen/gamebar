@@ -2,9 +2,7 @@
 const els = {
   tv: document.querySelector("#crt") as HTMLDivElement,
   screenContent: document.querySelector(".screen-content") as HTMLDivElement,
-  channelVid: document.querySelector(
-    ".channel-content video"
-  ) as HTMLVideoElement,
+  video: document.querySelector(".channel-content video") as HTMLVideoElement,
   powerBtn: document.querySelector(".power-btn") as HTMLButtonElement,
   chDisplay: document.querySelector(".ch-display") as HTMLDivElement,
   volDisplay: document.querySelector(".vol-display") as HTMLDivElement,
@@ -88,7 +86,7 @@ function togglePower() {
   //turn tv off
   if (isTvOn) {
     stopAudio(...sfxArray);
-    els.channelVid.src = "";
+    els.video.src = "";
     sfx.clickOff.play();
     sfx.powerOff.play();
     els.tv.setAttribute("data-power", "off");
@@ -141,23 +139,26 @@ function displayChannel(i: number) {
     els.chDisplay!.hidden = true;
   }, TIMEOUT_DUR);
 
-  //channel content
-  const currChannelContent = CHANNELS[i]?.content;
+  // waits for meta data loaded event, gets video duration and compares time stored in local storage to current time to determine which timestamp to play videos from
+  const onMetaDataLoaded = () => {
+    stopAudio(sfx.static);
+    const vidLengthMs = els.video.duration * 1000;
+    let initTimeStamp = localStorage.getItem("init-timestamp");
+    const now = Date.now();
 
-  // compares time stored in local storage to current time to determine which timestamp to play videos from
-  const vidLengthInMs = 270000;
-  let initTimeStamp = localStorage.getItem("init-timestamp");
-  const now = Date.now();
+    if (!initTimeStamp || now - parseInt(initTimeStamp) > vidLengthMs) {
+      initTimeStamp = now.toString();
+      localStorage.setItem("init-timestamp", initTimeStamp);
+    }
 
-  if (!initTimeStamp || now - parseInt(initTimeStamp) > vidLengthInMs) {
-    initTimeStamp = now.toString();
-    localStorage.setItem("init-timestamp", initTimeStamp);
-  }
-  const elapsedSeconds = (now - parseInt(initTimeStamp)) / 1000;
+    const elapsedSeconds = (now - parseInt(initTimeStamp)) / 1000;
+    els.video.currentTime = elapsedSeconds;
+    els.video.play();
+    els.video.removeEventListener("loadedmetadata", onMetaDataLoaded);
+  };
 
-  els.channelVid.src = currChannelContent!;
-  els.channelVid.currentTime = elapsedSeconds;
-  els.channelVid.play();
+  els.video.addEventListener("loadedmetadata", onMetaDataLoaded);
+  els.video.src = CHANNELS[i]?.content!;
 }
 
 function changeVolume(e: MouseEvent) {
@@ -172,7 +173,7 @@ function changeVolume(e: MouseEvent) {
     currVol = MIN_VOL;
   }
 
-  els.channelVid.volume = currVol / MAX_VOL;
+  els.video.volume = currVol / MAX_VOL;
   stopAudio(...clicksArray);
   displayVolume(currVol);
   playButtonClick();
