@@ -144,7 +144,19 @@ function displayChannel(i: number) {
   //channel content
   const currChannelContent = CHANNELS[i]?.content;
 
-  els.channelVid.src = CHANNELS[i]?.content!;
+  // compares time stored in local storage to current time to determine which timestamp to play videos from
+  const vidLengthInMs = 270000;
+  let initTimeStamp = localStorage.getItem("init-timestamp");
+  const now = Date.now();
+
+  if (!initTimeStamp || now - parseInt(initTimeStamp) > vidLengthInMs) {
+    initTimeStamp = now.toString();
+    localStorage.setItem("init-timestamp", initTimeStamp);
+  }
+  const elapsedSeconds = (now - parseInt(initTimeStamp)) / 1000;
+
+  els.channelVid.src = currChannelContent!;
+  els.channelVid.currentTime = elapsedSeconds;
   els.channelVid.play();
 }
 
