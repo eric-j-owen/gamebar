@@ -16,6 +16,7 @@ for (const [key, el] of Object.entries(els)) {
 }
 
 //consts
+const TIMEOUT_DUR = 4000;
 const MAX_VOL = 10;
 const MIN_VOL = 1;
 const CHANNELS = [
@@ -45,6 +46,7 @@ const sfx = {
   clickOff: new Audio("assets/audio/tv-off.mp3"),
   tvHum: new Audio("assets/audio/tv-hum.mp3"),
   static: new Audio("assets/audio/tv-static.mp3"),
+  powerOff: new Audio("assets/audio/tv-power-off.mp3"),
 };
 
 const btnSfx = {
@@ -72,12 +74,10 @@ function stopAudio(...audio: HTMLAudioElement[]) {
 }
 
 //ensures a random button click sfx is used each time
+
 function playButtonClick() {
-  stopAudio(...clicksArray, sfx.static);
   const randomIdx = Math.floor(Math.random() * clicksArray.length);
   clicksArray[randomIdx]?.play();
-  sfx.static.play();
-  sfx.static.loop = true;
 }
 
 function togglePower() {
@@ -85,20 +85,19 @@ function togglePower() {
   if (isTvOn) {
     stopAudio(...sfxArray);
     sfx.clickOff.play();
-
+    sfx.powerOff.play();
     els.tv.setAttribute("data-power", "off");
-    els.screenContent!.hidden = true;
   }
 
   //turn tv on
   else {
     stopAudio(sfx.clickOff);
     sfx.clickOn.play();
+    sfx.static.play();
     sfx.tvHum.play();
     sfx.tvHum.loop = true;
 
     els.tv.setAttribute("data-power", "on");
-    els.screenContent!.hidden = false;
     displayChannel(channelIdx);
   }
 
@@ -118,7 +117,10 @@ function changeChannel(e: MouseEvent) {
     channelIdx = CHANNELS.length - 1;
   }
 
+  stopAudio(...clicksArray, sfx.static);
   playButtonClick();
+  sfx.static.play();
+  sfx.static.loop = true;
   displayChannel(channelIdx);
 }
 
@@ -131,7 +133,7 @@ function displayChannel(i: number) {
 
   channelTimeout = setTimeout(() => {
     els.chDisplay!.hidden = true;
-  }, 4000);
+  }, TIMEOUT_DUR);
 }
 
 function changeVolume(e: MouseEvent) {
@@ -145,6 +147,7 @@ function changeVolume(e: MouseEvent) {
   } else if (currVol < MIN_VOL) {
     currVol = MIN_VOL;
   }
+  stopAudio(...clicksArray);
   displayVolume(currVol);
   playButtonClick();
 }
@@ -154,11 +157,12 @@ function displayVolume(currVol: number) {
 
   els.volDisplay.hidden = false;
 
+  // displays volume bars in slots that have an index less than the current volume
   els.volSlots.forEach((slot, i) => {
     slot.classList.toggle("on", i < currVol);
   });
 
   volTimeout = setTimeout(() => {
     els.volDisplay.hidden = true;
-  }, 4000);
+  }, TIMEOUT_DUR);
 }
